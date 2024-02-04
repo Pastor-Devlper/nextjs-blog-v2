@@ -1,0 +1,28 @@
+{
+  "name": "nextjs-course",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-react": "^6.2.0",
+    "@next/third-parties": "^14.1.0",
+    "@uiw/react-md-editor": "^3.6.0",
+    "ckeditor5-custom-build": "file:ckeditor5",
+    "cloudinary": "^2.0.0",
+    "formidable": "^2.1.2",
+    "gray-matter": "^4.0.3",
+    "mongodb": "^6.2.0",
+    "next": "^14.1.0",
+    "next-remove-imports": "^1.0.12",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.0",
+    "react-syntax-highlighter": "^15.5.0",
+    "sharp": "^0.32.6"
+  }
+}
