@@ -14,7 +14,9 @@ SyntaxHighlighter.registerLanguage('css', css);
 
 function PostContent(props) {
   const { post } = props;
-  const imagePath = `/images/posts/${post.slug}/${post.image}`;
+  const imagePath = post.image?.startsWith('http')
+    ? post.image
+    : `/images/posts/${post.slug}/${post.image}`;
 
   const customRenderers = {
     // img(props) {
@@ -35,13 +37,16 @@ function PostContent(props) {
       const { node } = props;
       if (node.children[0].tagName === 'img') {
         const image = node.children[0];
+        const src = image.properties.src;
+        const resolvedSrc = src?.startsWith('http')
+          ? src
+          : `/images/posts/${post.slug}/${src}`;
         return (
           <div className={classes.image}>
-            <Image
-              src={`/images/posts/${post.slug}/${image.properties.src}`}
+            <img
+              src={resolvedSrc}
               alt={image.properties.alt}
-              width={600}
-              height={400}
+              style={{ width: '100%', height: 'auto' }}
             />
           </div>
         );
