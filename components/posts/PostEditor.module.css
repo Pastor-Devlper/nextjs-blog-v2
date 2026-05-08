@@ -133,6 +133,28 @@
   gap: var(--size-2);
 }
 
+.imageInputRow {
+  display: flex;
+  gap: var(--size-2);
+}
+
+.imageInputRow input[type='text'] {
+  flex: 1;
+  padding: var(--size-2) var(--size-3);
+  border: 1px solid var(--color-grey-300);
+  border-radius: 4px;
+  background-color: white;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #252525;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.imageInputRow input[type='text']:focus {
+  border-color: var(--color-primary-400);
+}
+
 .thumbnailPreview {
   width: 100%;
   max-height: 8rem;

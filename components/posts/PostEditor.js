@@ -104,26 +104,39 @@ function PostEditor(props) {
         </div>
 
         <div className={classes.field}>
-          <label>썸네일 이미지</label>
+          <label htmlFor="image">썸네일 이미지</label>
           <div className={classes.imageUpload}>
             {thumbnailPreview && (
               <img src={thumbnailPreview} alt="썸네일 미리보기" className={classes.thumbnailPreview} />
             )}
-            <button
-              type="button"
-              className={classes.uploadButton}
-              onClick={() => thumbnailInputRef.current.click()}
-              disabled={uploading}
-            >
-              {uploading ? '업로드 중...' : '이미지 선택'}
-            </button>
-            <input
-              ref={thumbnailInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleThumbnailUpload}
-              style={{ display: 'none' }}
-            />
+            <div className={classes.imageInputRow}>
+              <input
+                id="image"
+                name="image"
+                type="text"
+                value={fields.image}
+                onChange={(e) => {
+                  handleChange(e);
+                  setThumbnailPreview(e.target.value);
+                }}
+                placeholder="URL 직접 입력 또는 파일 선택"
+              />
+              <button
+                type="button"
+                className={classes.uploadButton}
+                onClick={() => thumbnailInputRef.current.click()}
+                disabled={uploading}
+              >
+                {uploading ? '업로드 중...' : '파일 선택'}
+              </button>
+              <input
+                ref={thumbnailInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleThumbnailUpload}
+                style={{ display: 'none' }}
+              />
+            </div>
           </div>
         </div>
 
