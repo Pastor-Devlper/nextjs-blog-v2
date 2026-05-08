@@ -19,6 +19,8 @@ function PostEditor(props) {
   const [content, setContent] = useState(props.content || '');
   const [thumbnailPreview, setThumbnailPreview] = useState(props.image || '');
   const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState(null);
   const thumbnailInputRef = useRef(null);
 
   async function handleThumbnailUpload(e) {
@@ -49,10 +51,30 @@ function PostEditor(props) {
     setFields((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   }
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
-    const post = { ...fields, content };
-    console.log(post);
+    setSaving(true);
+    setSaveMessage(null);
+
+    try {
+      const res = await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...fields, content }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setSaveMessage({ type: 'error', text: data.message });
+        return;
+      }
+
+      setSaveMessage({ type: 'success', text: `저장 완료! (${data.slug}.md)` });
+    } catch {
+      setSaveMessage({ type: 'error', text: '저장 중 오류가 발생했습니다.' });
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -149,8 +171,13 @@ function PostEditor(props) {
       </div>
 
       <div className={classes.actions}>
-        <button type="submit" className={classes.submitButton}>
-          저장
+        {saveMessage && (
+          <p className={saveMessage.type === 'success' ? classes.successMsg : classes.errorMsg}>
+            {saveMessage.text}
+          </p>
+        )}
+        <button type="submit" className={classes.submitButton} disabled={saving}>
+          {saving ? '저장 중...' : '저장'}
         </button>
       </div>
     </form>

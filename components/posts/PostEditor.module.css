@@ -94,7 +94,21 @@
 
 .actions {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: var(--size-4);
+}
+
+.successMsg {
+  font-size: 0.9rem;
+  color: var(--color-success-500);
+  margin: 0;
+}
+
+.errorMsg {
+  font-size: 0.9rem;
+  color: var(--color-error-500);
+  margin: 0;
 }
 
 .submitButton {
