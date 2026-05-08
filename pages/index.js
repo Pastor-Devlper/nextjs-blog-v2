@@ -21,14 +21,14 @@ function HomePage(props) {
   );
 }
 
-export function getStaticProps() {
-  const featuredPosts = getFeaturedPosts();
-  // console.log(featuredPosts);
+export async function getStaticProps() {
+  const featuredPosts = await getFeaturedPosts();
 
   return {
     props: {
       posts: featuredPosts,
     },
+    revalidate: 60,
   };
 }
 

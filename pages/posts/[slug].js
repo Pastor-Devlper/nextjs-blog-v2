@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Fragment } from 'react';
-import { getPostData, getPostsFiles } from '../../lib/posts-util';
+import { getPostData, getPostsSlugs } from '../../lib/posts-util';
 import PostContent from '../../components/posts/post-detail/post-content';
 
 function PostDetailPage(props) {
@@ -15,24 +15,22 @@ function PostDetailPage(props) {
   );
 }
 
-export function getStaticProps(context) {
+export async function getStaticProps(context) {
   const { params } = context;
-  const slug = params.slug;
-  const postData = getPostData(slug);
+  const post = await getPostData(params.slug);
 
   return {
-    props: { post: postData },
-    revalidate: 600,
+    props: { post },
+    revalidate: 60,
   };
 }
 
-export function getStaticPaths() {
-  const postFileNames = getPostsFiles();
-  const slugs = postFileNames.map((fileName) => fileName.replace(/\.md$/, ''));
+export async function getStaticPaths() {
+  const slugs = await getPostsSlugs();
 
   return {
-    paths: slugs.map((slug) => ({ params: { slug: slug } })),
-    fallback: false,
+    paths: slugs.map((slug) => ({ params: { slug } })),
+    fallback: 'blocking',
   };
 }
 

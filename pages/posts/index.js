@@ -18,13 +18,14 @@ function AllPostsPage(props) {
   );
 }
 
-export function getStaticProps() {
-  const allPosts = getAllPosts();
+export async function getStaticProps() {
+  const allPosts = await getAllPosts();
 
   return {
     props: {
       posts: allPosts,
     },
+    revalidate: 60,
   };
 }
 
