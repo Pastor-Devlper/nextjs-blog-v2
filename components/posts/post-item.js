@@ -12,7 +12,9 @@ function PostItem(props) {
     year: 'numeric',
   });
 
-  const imagePath = `/images/posts/${slug}/${image}`;
+  const imagePath = image?.startsWith('http')
+    ? image
+    : `/images/posts/${slug}/${image}`;
   const linkPath = `/posts/${slug}`;
 
   return (
