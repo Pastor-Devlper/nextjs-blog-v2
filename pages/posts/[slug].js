@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Fragment } from 'react';
-import { getPostData, getPostsSlugs } from '../../lib/posts-util';
+import { getPostData } from '../../lib/posts-util';
 import PostContent from '../../components/posts/post-detail/post-content';
 
 function PostDetailPage(props) {
@@ -26,10 +26,8 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const slugs = await getPostsSlugs();
-
   return {
-    paths: slugs.map((slug) => ({ params: { slug } })),
+    paths: [],
     fallback: 'blocking',
   };
 }
