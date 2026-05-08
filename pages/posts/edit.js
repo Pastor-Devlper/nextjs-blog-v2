@@ -1,20 +1,12 @@
-import React from 'react';
-import dynamic from 'next/dynamic';
 import Card from '../../components/ui/card';
+import PostEditor from '../../components/posts/PostEditor';
 
-const CustomEditor = dynamic(
-  () => {
-    return import('../../components/custom-editor');
-  },
-  { ssr: false }
-);
-
-function editPost() {
+function EditPostPage() {
   return (
     <Card>
-      <CustomEditor initialData="<h1>Hello from CKEditor in Next.js!</h1>" />
+      <PostEditor />
     </Card>
   );
 }
 
-export default editPost;
+export default EditPostPage;
