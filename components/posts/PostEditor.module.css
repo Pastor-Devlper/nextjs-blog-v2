@@ -112,3 +112,38 @@
 .submitButton:hover {
   background-color: var(--color-primary-500);
 }
+
+.imageUpload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-2);
+}
+
+.thumbnailPreview {
+  width: 100%;
+  max-height: 8rem;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--color-grey-300);
+}
+
+.uploadButton {
+  padding: var(--size-2) var(--size-3);
+  background-color: white;
+  color: var(--color-primary-500);
+  border: 1px solid var(--color-primary-400);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.uploadButton:hover:not(:disabled) {
+  background-color: var(--color-grey-50);
+}
+
+.uploadButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

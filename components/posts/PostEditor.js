@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
 
 import '@uiw/react-md-editor/markdown-editor.css';
@@ -17,6 +17,32 @@ function PostEditor(props) {
     isFeatured: props.isFeatured || false,
   });
   const [content, setContent] = useState(props.content || '');
+  const [thumbnailPreview, setThumbnailPreview] = useState(props.image || '');
+  const [uploading, setUploading] = useState(false);
+  const thumbnailInputRef = useRef(null);
+
+  async function handleThumbnailUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/upload-cloudinary-api', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      const url = data.filePaths[0];
+      setFields((prev) => ({ ...prev, image: url }));
+      setThumbnailPreview(url);
+    } catch {
+      alert('이미지 업로드에 실패했습니다.');
+    } finally {
+      setUploading(false);
+    }
+  }
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -56,15 +82,27 @@ function PostEditor(props) {
         </div>
 
         <div className={classes.field}>
-          <label htmlFor="image">이미지 파일명</label>
-          <input
-            id="image"
-            name="image"
-            type="text"
-            value={fields.image}
-            onChange={handleChange}
-            placeholder="예: my-post.jpg"
-          />
+          <label>썸네일 이미지</label>
+          <div className={classes.imageUpload}>
+            {thumbnailPreview && (
+              <img src={thumbnailPreview} alt="썸네일 미리보기" className={classes.thumbnailPreview} />
+            )}
+            <button
+              type="button"
+              className={classes.uploadButton}
+              onClick={() => thumbnailInputRef.current.click()}
+              disabled={uploading}
+            >
+              {uploading ? '업로드 중...' : '이미지 선택'}
+            </button>
+            <input
+              ref={thumbnailInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleThumbnailUpload}
+              style={{ display: 'none' }}
+            />
+          </div>
         </div>
 
         <div className={classes.checkboxField}>
