@@ -31,6 +31,21 @@
   color: var(--color-grey-200);
 }
 
+.authButton {
+  background: none;
+  border: 1px solid var(--color-grey-300);
+  border-radius: 4px;
+  color: var(--color-grey-100);
+  font-size: var(--size-4);
+  padding: var(--size-1) var(--size-3);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.authButton:hover {
+  border-color: var(--color-grey-100);
+}
+
 @media (min-width: 768px) {
   .header ul {
     gap: 0.5rem;

@@ -1,3 +1,4 @@
+import { getSession } from 'next-auth/react';
 import Card from '../../../components/ui/card';
 import PostEditor from '../../../components/posts/PostEditor';
 import { getPostData } from '../../../lib/posts-util';
@@ -19,7 +20,13 @@ function EditPostPage({ post }) {
   );
 }
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ req, params }) {
+  const session = await getSession({ req });
+
+  if (!session) {
+    return { redirect: { destination: '/auth/signin', permanent: false } };
+  }
+
   const post = await getPostData(params.slug);
 
   if (!post) {
