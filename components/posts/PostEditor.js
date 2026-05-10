@@ -9,6 +9,7 @@ import classes from './PostEditor.module.css';
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
 function PostEditor(props) {
+  const isEdit = !!props.slug;
   const [fields, setFields] = useState({
     title: props.title || '',
     date: props.date || '',
@@ -56,9 +57,12 @@ function PostEditor(props) {
     setSaving(true);
     setSaveMessage(null);
 
+    const url = isEdit ? `/api/posts/${props.slug}` : '/api/posts';
+    const method = isEdit ? 'PUT' : 'POST';
+
     try {
-      const res = await fetch('/api/posts', {
-        method: 'POST',
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...fields, content }),
       });
@@ -69,7 +73,10 @@ function PostEditor(props) {
         return;
       }
 
-      setSaveMessage({ type: 'success', text: `저장 완료! (${data.slug}.md)` });
+      setSaveMessage({ type: 'success', text: isEdit ? '수정 완료!' : '저장 완료!' });
+      if (isEdit && props.onSaved) {
+        setTimeout(() => props.onSaved(), 800);
+      }
     } catch {
       setSaveMessage({ type: 'error', text: '저장 중 오류가 발생했습니다.' });
     } finally {
@@ -190,7 +197,7 @@ function PostEditor(props) {
           </p>
         )}
         <button type="submit" className={classes.submitButton} disabled={saving}>
-          {saving ? '저장 중...' : '저장'}
+          {saving ? '저장 중...' : isEdit ? '수정 저장' : '저장'}
         </button>
       </div>
     </form>
