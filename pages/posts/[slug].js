@@ -15,21 +15,14 @@ function PostDetailPage(props) {
   );
 }
 
-export async function getStaticProps(context) {
-  const { params } = context;
+export async function getServerSideProps({ params }) {
   const post = await getPostData(params.slug);
 
-  return {
-    props: { post },
-    revalidate: 60,
-  };
-}
+  if (!post) {
+    return { notFound: true };
+  }
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: 'blocking',
-  };
+  return { props: { post } };
 }
 
 export default PostDetailPage;
