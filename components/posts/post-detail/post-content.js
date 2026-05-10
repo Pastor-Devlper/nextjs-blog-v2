@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import atomDark from 'react-syntax-highlighter/dist/cjs/styles/prism/atom-dark';
 import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript';
@@ -14,6 +15,7 @@ SyntaxHighlighter.registerLanguage('css', css);
 
 function PostContent(props) {
   const { post } = props;
+  const { data: session } = useSession();
   const imagePath = post.image?.startsWith('http')
     ? post.image
     : `/images/posts/${post.slug}/${post.image}`;
@@ -62,11 +64,13 @@ function PostContent(props) {
   return (
     <article className={classes.content}>
       <PostHeader title={post.title} image={imagePath} />
-      <div className={classes.editRow}>
-        <Link href={`/posts/edit/${post.slug}`} className={classes.editButton}>
-          수정
-        </Link>
-      </div>
+      {session && (
+        <div className={classes.editRow}>
+          <Link href={`/posts/edit/${post.slug}`} className={classes.editButton}>
+            수정
+          </Link>
+        </div>
+      )}
       <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
     </article>
   );
