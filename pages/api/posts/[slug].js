@@ -49,6 +49,9 @@ export default async function handler(req, res) {
     }
 
     client.close();
+
+    await res.revalidate(`/posts/${slug}`);
+
     res.status(200).json({ message: '포스트가 수정되었습니다.', slug });
   } catch {
     client.close();
