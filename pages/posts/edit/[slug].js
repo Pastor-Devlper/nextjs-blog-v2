@@ -1,11 +1,8 @@
-import { useRouter } from 'next/router';
 import Card from '../../../components/ui/card';
 import PostEditor from '../../../components/posts/PostEditor';
 import { getPostData } from '../../../lib/posts-util';
 
 function EditPostPage({ post }) {
-  const router = useRouter();
-
   return (
     <Card>
       <PostEditor
@@ -16,7 +13,7 @@ function EditPostPage({ post }) {
         excerpt={post.excerpt}
         isFeatured={post.isFeatured}
         content={post.content}
-        onSaved={() => router.push(`/posts/${post.slug}`)}
+        onSaved={() => { window.location.href = `/posts/${post.slug}`; }}
       />
     </Card>
   );
