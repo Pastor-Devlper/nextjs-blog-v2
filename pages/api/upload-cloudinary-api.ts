@@ -63,13 +63,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     for (const file of files) {
       const filePath = file[1]?.filepath;
       const result = await cloudinary.uploader.upload(filePath, {
-        // width: 512,
-        // height: 512,
-        // crop: 'fill',
-        folder: 'dreamch/posts',
+        folder: 'simslogv2',
       });
-      // console.log(result);
-      resultBody.filePaths.push(result.secure_url);
+      const optimizedUrl = result.secure_url.replace(
+        '/upload/',
+        '/upload/q_auto:good,w_1920,c_limit,f_auto/'
+      );
+      resultBody.filePaths.push(optimizedUrl);
     }
   }
 

@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import onImagePasted from '../../lib/onImagePasted';
+import CloudinaryWidget from '../ui/CloudinaryWidget';
 import classes from './PostEditor.module.css';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
@@ -19,33 +20,8 @@ function PostEditor(props) {
   });
   const [content, setContent] = useState(props.content || '');
   const [thumbnailPreview, setThumbnailPreview] = useState(props.image || '');
-  const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState(null);
-  const thumbnailInputRef = useRef(null);
-
-  async function handleThumbnailUpload(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/upload-cloudinary-api', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-      const url = data.filePaths[0];
-      setFields((prev) => ({ ...prev, image: url }));
-      setThumbnailPreview(url);
-    } catch {
-      alert('이미지 업로드에 실패했습니다.');
-    } finally {
-      setUploading(false);
-    }
-  }
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -126,22 +102,16 @@ function PostEditor(props) {
                   handleChange(e);
                   setThumbnailPreview(e.target.value);
                 }}
-                placeholder="URL 직접 입력 또는 파일 선택"
+                placeholder="URL 직접 입력 또는 위젯으로 선택"
               />
-              <button
-                type="button"
+              <CloudinaryWidget
+                onUpload={(url) => {
+                  setFields((prev) => ({ ...prev, image: url }));
+                  setThumbnailPreview(url);
+                }}
+                folder="simslogv2"
+                label="이미지 선택"
                 className={classes.uploadButton}
-                onClick={() => thumbnailInputRef.current.click()}
-                disabled={uploading}
-              >
-                {uploading ? '업로드 중...' : '파일 선택'}
-              </button>
-              <input
-                ref={thumbnailInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleThumbnailUpload}
-                style={{ display: 'none' }}
               />
             </div>
           </div>
