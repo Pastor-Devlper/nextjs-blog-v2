@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import CloudinaryWidget from '../ui/CloudinaryWidget';
 import classes from './ImageBrowser.module.css';
 
 function ImageBrowser({ onInsert, onClose }) {
@@ -7,7 +8,9 @@ function ImageBrowser({ onInsert, onClose }) {
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(null);
 
-  useEffect(() => {
+  function loadImages() {
+    setLoading(true);
+    setError(null);
     fetch('/api/cloudinary-images')
       .then((r) => r.json())
       .then((data) => {
@@ -18,6 +21,10 @@ function ImageBrowser({ onInsert, onClose }) {
         setError('이미지를 불러오지 못했습니다.');
         setLoading(false);
       });
+  }
+
+  useEffect(() => {
+    loadImages();
   }, []);
 
   function copyUrl(url) {
@@ -36,7 +43,17 @@ function ImageBrowser({ onInsert, onClose }) {
       <div className={classes.modal} onClick={(e) => e.stopPropagation()}>
         <div className={classes.header}>
           <h2 className={classes.title}>이미지 라이브러리</h2>
-          <button className={classes.closeBtn} onClick={onClose}>✕</button>
+          <div className={classes.headerActions}>
+            <CloudinaryWidget
+              folder="simslogv2"
+              label="+ 업로드"
+              className={classes.uploadBtn}
+              onUpload={(url) => {
+                setImages((prev) => [{ url, publicId: url }, ...prev]);
+              }}
+            />
+            <button className={classes.closeBtn} onClick={onClose}>✕</button>
+          </div>
         </div>
 
         <div className={classes.body}>

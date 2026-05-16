@@ -29,6 +29,33 @@
   flex-shrink: 0;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.uploadBtn {
+  padding: 0.35rem 0.75rem;
+  background: var(--color-primary-400);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.uploadBtn:hover:not(:disabled) {
+  background: var(--color-primary-500);
+}
+
+.uploadBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .title {
   font-size: 1.05rem;
   font-weight: 700;
