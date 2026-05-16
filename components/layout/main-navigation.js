@@ -22,9 +22,11 @@ function MainNavigation() {
               <Link href="/posts/edit">New Post</Link>
             </li>
           )}
-          <li>
-            <Link href="/contact">Contact</Link>
-          </li>
+          {!session && (
+            <li>
+              <Link href="/contact">Contact</Link>
+            </li>
+          )}
           <li>
             {session ? (
               <button className={classes.authButton} onClick={() => signOut()}>
