@@ -4,7 +4,9 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head />
+        <Head>
+          <script src="https://widget.cloudinary.com/v2.0/global/all.js" async />
+        </Head>
         <body>
           <Main />
           <NextScript />
