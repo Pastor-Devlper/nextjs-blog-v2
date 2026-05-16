@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import Script from 'next/script';
+import { useRef, useState, useEffect } from 'react';
 
 function addOptimization(url) {
   return url.replace('/upload/', '/upload/q_auto:good,w_1920,c_limit,f_auto/');
@@ -7,12 +6,24 @@ function addOptimization(url) {
 
 function CloudinaryWidget({ onUpload, folder = 'simslogv2', label = '이미지 선택', disabled = false, className }) {
   const widgetRef = useRef(null);
+  const [ready, setReady] = useState(false);
 
-  function openWidget() {
-    if (!window.cloudinary) {
-      alert('위젯을 로드 중입니다. 잠시 후 다시 시도해주세요.');
+  useEffect(() => {
+    if (window.cloudinary) {
+      setReady(true);
       return;
     }
+    const interval = setInterval(() => {
+      if (window.cloudinary) {
+        setReady(true);
+        clearInterval(interval);
+      }
+    }, 200);
+    return () => clearInterval(interval);
+  }, []);
+
+  function openWidget() {
+    if (!window.cloudinary) return;
 
     if (!widgetRef.current) {
       widgetRef.current = window.cloudinary.createUploadWidget(
@@ -37,12 +48,14 @@ function CloudinaryWidget({ onUpload, folder = 'simslogv2', label = '이미지 �
   }
 
   return (
-    <>
-      <Script src="https://widget.cloudinary.com/v2.0/global/all.js" strategy="lazyOnload" />
-      <button type="button" onClick={openWidget} disabled={disabled} className={className}>
-        {label}
-      </button>
-    </>
+    <button
+      type="button"
+      onClick={openWidget}
+      disabled={disabled || !ready}
+      className={className}
+    >
+      {ready ? label : '로딩 중...'}
+    </button>
   );
 }
 
