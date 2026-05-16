@@ -5,6 +5,7 @@ import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
 import onImagePasted from '../../lib/onImagePasted';
 import CloudinaryWidget from '../ui/CloudinaryWidget';
+import ImageBrowser from './ImageBrowser';
 import classes from './PostEditor.module.css';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
@@ -20,6 +21,7 @@ function PostEditor(props) {
   });
   const [content, setContent] = useState(props.content || '');
   const [thumbnailPreview, setThumbnailPreview] = useState(props.image || '');
+  const [showBrowser, setShowBrowser] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState(null);
 
@@ -143,7 +145,16 @@ function PostEditor(props) {
       <hr className={classes.divider} />
 
       <div>
-        <p className={classes.editorLabel}>본문</p>
+        <div className={classes.editorHeader}>
+          <p className={classes.editorLabel}>본문</p>
+          <button
+            type="button"
+            className={classes.libraryButton}
+            onClick={() => setShowBrowser(true)}
+          >
+            🖼 이미지 라이브러리
+          </button>
+        </div>
         <MDEditor
           value={content}
           height={440}
@@ -159,6 +170,13 @@ function PostEditor(props) {
           }}
         />
       </div>
+
+      {showBrowser && (
+        <ImageBrowser
+          onInsert={(md) => setContent((prev) => (prev || '') + md)}
+          onClose={() => setShowBrowser(false)}
+        />
+      )}
 
       <div className={classes.actions}>
         {saveMessage && (

@@ -83,13 +83,36 @@
   margin: 0;
 }
 
+.editorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--size-2);
+}
+
 .editorLabel {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--color-grey-700);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: var(--size-2);
+  margin: 0;
+}
+
+.libraryButton {
+  padding: var(--size-1) var(--size-3);
+  background: white;
+  color: var(--color-primary-500);
+  border: 1px solid var(--color-primary-400);
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.libraryButton:hover {
+  background: var(--color-grey-50);
 }
 
 .actions {
