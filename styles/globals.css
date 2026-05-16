@@ -63,3 +63,13 @@ button {
   font: inherit;
   cursor: pointer;
 }
+
+/* MDEditor toolbar mobile fix */
+.w-md-editor-toolbar {
+  overflow-x: auto !important;
+  flex-wrap: nowrap !important;
+}
+
+.w-md-editor-toolbar ul {
+  flex-wrap: nowrap !important;
+}
