@@ -68,8 +68,16 @@ button {
 .w-md-editor-toolbar {
   overflow-x: auto !important;
   flex-wrap: nowrap !important;
+  height: auto !important;
+  min-height: 44px !important;
+  padding: 6px 4px !important;
 }
 
 .w-md-editor-toolbar ul {
   flex-wrap: nowrap !important;
+}
+
+.w-md-editor-toolbar ul li button {
+  height: 28px !important;
+  line-height: 28px !important;
 }
