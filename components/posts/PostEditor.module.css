@@ -10,6 +10,24 @@
   gap: var(--size-4);
 }
 
+@media (max-width: 640px) {
+  .meta {
+    grid-template-columns: 1fr;
+  }
+
+  .fieldFull {
+    grid-column: 1;
+  }
+
+  .imageInputRow {
+    flex-wrap: wrap;
+  }
+
+  .imageInputRow input[type='text'] {
+    min-width: 0;
+  }
+}
+
 .field {
   display: flex;
   flex-direction: column;
