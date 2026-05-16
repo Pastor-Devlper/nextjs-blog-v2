@@ -6,6 +6,29 @@ function getClient() {
 }
 
 export default async function handler(req, res) {
+  if (req.method === 'DELETE') {
+    const { slug } = req.query;
+    let client;
+    try {
+      client = getClient();
+      await client.connect();
+    } catch {
+      return res.status(500).json({ message: 'DB 연결에 실패했습니다.' });
+    }
+    const db = client.db(process.env.mongodb_database);
+    try {
+      const result = await db.collection('posts').deleteOne({ slug });
+      client.close();
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ message: '포스트를 찾을 수 없습니다.' });
+      }
+      return res.status(200).json({ message: '포스트가 삭제되었습니다.' });
+    } catch {
+      client.close();
+      return res.status(500).json({ message: '포스트 삭제에 실패했습니다.' });
+    }
+  }
+
   if (req.method !== 'PUT') {
     return res.status(405).json({ message: 'Method not allowed' });
   }

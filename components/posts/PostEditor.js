@@ -23,7 +23,26 @@ function PostEditor(props) {
   const [thumbnailPreview, setThumbnailPreview] = useState(props.image || '');
   const [showBrowser, setShowBrowser] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [saveMessage, setSaveMessage] = useState(null);
+
+  async function deleteHandler() {
+    if (!confirm(`"${fields.title}" 포스트를 삭제할까요? 되돌릴 수 없습니다.`)) return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/posts/${props.slug}`, { method: 'DELETE' });
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.message || '삭제에 실패했습니다.');
+        return;
+      }
+      window.location.href = '/posts';
+    } catch {
+      alert('삭제 중 오류가 발생했습니다.');
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target;
@@ -183,6 +202,16 @@ function PostEditor(props) {
           <p className={saveMessage.type === 'success' ? classes.successMsg : classes.errorMsg}>
             {saveMessage.text}
           </p>
+        )}
+        {isEdit && (
+          <button
+            type="button"
+            className={classes.deleteButton}
+            onClick={deleteHandler}
+            disabled={deleting || saving}
+          >
+            {deleting ? '삭제 중...' : '삭제'}
+          </button>
         )}
         <button type="submit" className={classes.submitButton} disabled={saving}>
           {saving ? '저장 중...' : isEdit ? '수정 저장' : '저장'}
