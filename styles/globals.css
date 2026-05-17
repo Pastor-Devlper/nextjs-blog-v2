@@ -85,6 +85,11 @@ button {
 /* MDEditor content mobile overflow fix */
 @media (max-width: 640px) {
   .w-md-editor {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  .w-md-editor-aree {
     overflow-x: hidden !important;
   }
 
@@ -98,5 +103,10 @@ button {
     word-break: break-word !important;
     overflow-wrap: anywhere !important;
     white-space: pre-wrap !important;
+  }
+
+  .w-md-editor-text-pre * {
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
   }
 }
