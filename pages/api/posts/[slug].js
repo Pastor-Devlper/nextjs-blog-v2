@@ -22,6 +22,10 @@ export default async function handler(req, res) {
       if (result.deletedCount === 0) {
         return res.status(404).json({ message: '포스트를 찾을 수 없습니다.' });
       }
+      try {
+        await res.revalidate('/');
+        await res.revalidate('/posts');
+      } catch (_) {}
       return res.status(200).json({ message: '포스트가 삭제되었습니다.' });
     } catch {
       client.close();
@@ -72,6 +76,11 @@ export default async function handler(req, res) {
     }
 
     client.close();
+
+    try {
+      await res.revalidate('/');
+      await res.revalidate('/posts');
+    } catch (_) {}
 
     res.status(200).json({ message: '포스트가 수정되었습니다.', slug });
   } catch {

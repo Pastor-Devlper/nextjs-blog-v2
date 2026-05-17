@@ -59,6 +59,11 @@ export default async function handler(req, res) {
     await db.collection('posts').insertOne(post);
     client.close();
 
+    try {
+      await res.revalidate('/');
+      await res.revalidate('/posts');
+    } catch (_) {}
+
     res.status(201).json({ message: '포스트가 저장되었습니다.', slug });
   } catch {
     client.close();
