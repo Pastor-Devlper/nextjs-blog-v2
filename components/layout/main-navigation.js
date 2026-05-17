@@ -17,16 +17,13 @@ function MainNavigation() {
           <li>
             <Link href="/posts">Posts</Link>
           </li>
-          {session && (
-            <li>
+          <li className={classes.navItemFixed}>
+            {session ? (
               <Link href="/posts/edit">New Post</Link>
-            </li>
-          )}
-          {!session && (
-            <li>
+            ) : (
               <Link href="/contact">Contact</Link>
-            </li>
-          )}
+            )}
+          </li>
           <li>
             {session ? (
               <button className={classes.authButton} onClick={() => signOut()}>

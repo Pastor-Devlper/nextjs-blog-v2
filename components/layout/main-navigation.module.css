@@ -21,6 +21,10 @@
   margin: 0 var(--size-4);
 }
 
+.navItemFixed {
+  min-width: 4.5rem;
+}
+
 .header a {
   color: var(--color-grey-100);
   font-size: var(--size-4);
@@ -43,6 +47,7 @@
   cursor: pointer;
   transition: border-color 0.2s;
   white-space: nowrap;
+  min-width: 5.5rem;
 }
 
 .authButton:hover {
