@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
@@ -214,14 +215,9 @@ function PostEditor(props) {
           </button>
         )}
         {!isEdit && (
-          <button
-            type="button"
-            className={classes.cancelButton}
-            onClick={() => window.location.href = '/posts'}
-            disabled={saving}
-          >
+          <Link href="/posts" className={classes.cancelButton}>
             취소
-          </button>
+          </Link>
         )}
         <button type="submit" className={classes.submitButton} disabled={saving}>
           {saving ? '저장 중...' : isEdit ? '수정 저장' : '저장'}
