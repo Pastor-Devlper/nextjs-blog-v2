@@ -25,6 +25,7 @@ function PostEditor(props) {
   const [showBrowser, setShowBrowser] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [saveMessage, setSaveMessage] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -33,18 +34,19 @@ function PostEditor(props) {
   }, []);
 
   async function deleteHandler() {
-    if (!confirm(`"${fields.title}" 포스트를 삭제할까요? 되돌릴 수 없습니다.`)) return;
     setDeleting(true);
     try {
       const res = await fetch(`/api/posts/${props.slug}`, { method: 'DELETE' });
       if (!res.ok) {
         const data = await res.json();
-        alert(data.message || '삭제에 실패했습니다.');
+        setSaveMessage({ type: 'error', text: data.message || '삭제에 실패했습니다.' });
+        setConfirmDelete(false);
         return;
       }
       window.location.href = '/posts';
     } catch {
-      alert('삭제 중 오류가 발생했습니다.');
+      setSaveMessage({ type: 'error', text: '삭제 중 오류가 발생했습니다.' });
+      setConfirmDelete(false);
     } finally {
       setDeleting(false);
     }
@@ -210,15 +212,36 @@ function PostEditor(props) {
             {saveMessage.text}
           </p>
         )}
-        {isEdit && (
+        {isEdit && !confirmDelete && (
           <button
             type="button"
             className={classes.deleteButton}
-            onClick={deleteHandler}
+            onClick={() => setConfirmDelete(true)}
             disabled={deleting || saving}
           >
-            {deleting ? '삭제 중...' : '삭제'}
+            삭제
           </button>
+        )}
+        {isEdit && confirmDelete && (
+          <>
+            <span className={classes.confirmText}>정말 삭제할까요?</span>
+            <button
+              type="button"
+              className={classes.deleteButton}
+              onClick={deleteHandler}
+              disabled={deleting}
+            >
+              {deleting ? '삭제 중...' : '확인'}
+            </button>
+            <button
+              type="button"
+              className={classes.cancelDeleteButton}
+              onClick={() => setConfirmDelete(false)}
+              disabled={deleting}
+            >
+              취소
+            </button>
+          </>
         )}
         {!isEdit && (
           <Link href="/posts" className={classes.cancelButton}>
