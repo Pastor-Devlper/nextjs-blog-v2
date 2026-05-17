@@ -9,7 +9,10 @@ import CloudinaryWidget from '../ui/CloudinaryWidget';
 import ImageBrowser from './ImageBrowser';
 import classes from './PostEditor.module.css';
 
-const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
+  ssr: false,
+  loading: () => <div style={{ height: '440px', border: '1px solid #d1d5db', borderRadius: '4px', background: '#fff' }} />,
+});
 
 function PostEditor(props) {
   const isEdit = !!props.slug;
