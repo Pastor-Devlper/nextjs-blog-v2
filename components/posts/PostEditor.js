@@ -213,6 +213,16 @@ function PostEditor(props) {
             {deleting ? '삭제 중...' : '삭제'}
           </button>
         )}
+        {!isEdit && (
+          <button
+            type="button"
+            className={classes.cancelButton}
+            onClick={() => window.location.href = '/posts'}
+            disabled={saving}
+          >
+            취소
+          </button>
+        )}
         <button type="submit" className={classes.submitButton} disabled={saving}>
           {saving ? '저장 중...' : isEdit ? '수정 저장' : '저장'}
         </button>
