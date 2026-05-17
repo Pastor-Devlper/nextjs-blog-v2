@@ -138,6 +138,21 @@
   align-items: center;
   justify-content: flex-end;
   gap: var(--size-4);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .actions {
+    justify-content: stretch;
+    gap: var(--size-3);
+  }
+
+  .actions > button {
+    flex: 1;
+    padding: var(--size-3) var(--size-4);
+    min-height: 48px;
+    font-size: 1rem;
+  }
 }
 
 .successMsg {
