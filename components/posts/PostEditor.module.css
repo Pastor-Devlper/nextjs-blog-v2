@@ -147,11 +147,13 @@
     gap: var(--size-3);
   }
 
-  .actions > button {
+  .actions > button,
+  .actions > a {
     flex: 1;
     padding: var(--size-3) var(--size-4);
     min-height: 48px;
     font-size: 1rem;
+    text-align: center;
   }
 }
 

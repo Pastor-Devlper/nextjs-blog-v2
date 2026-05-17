@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
@@ -26,6 +26,11 @@ function PostEditor(props) {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [saveMessage, setSaveMessage] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth <= 640);
+  }, []);
 
   async function deleteHandler() {
     if (!confirm(`"${fields.title}" 포스트를 삭제할까요? 되돌릴 수 없습니다.`)) return;
@@ -178,6 +183,7 @@ function PostEditor(props) {
         <MDEditor
           value={content}
           height={440}
+          preview={isMobile ? 'edit' : 'live'}
           onChange={setContent}
           onPaste={async (event) => {
             await onImagePasted(event.clipboardData, setContent);
