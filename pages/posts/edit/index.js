@@ -1,16 +1,12 @@
-import Head from 'next/head';
 import { getSession } from 'next-auth/react';
 import Card from '../../../components/ui/card';
 import PostEditor from '../../../components/posts/PostEditor';
 
 function EditPostPage() {
   return (
-    <>
-      <Head><title>새 포스트 작성</title></Head>
-      <Card>
-        <PostEditor />
-      </Card>
-    </>
+    <Card>
+      <PostEditor />
+    </Card>
   );
 }
 
