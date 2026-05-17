@@ -63,3 +63,40 @@ button {
   font: inherit;
   cursor: pointer;
 }
+
+/* MDEditor toolbar mobile fix */
+.w-md-editor-toolbar {
+  overflow-x: auto !important;
+  flex-wrap: nowrap !important;
+  height: auto !important;
+  min-height: 44px !important;
+  padding: 6px 4px !important;
+}
+
+.w-md-editor-toolbar ul {
+  flex-wrap: nowrap !important;
+}
+
+.w-md-editor-toolbar ul li button {
+  height: 28px !important;
+  line-height: 28px !important;
+}
+
+/* MDEditor content mobile overflow fix */
+@media (max-width: 640px) {
+  .w-md-editor {
+    overflow-x: hidden !important;
+  }
+
+  .w-md-editor-text {
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .w-md-editor-text-pre,
+  .w-md-editor-text-input {
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    white-space: pre-wrap !important;
+  }
+}
