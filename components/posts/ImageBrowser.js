@@ -52,7 +52,7 @@ function ImageBrowser({ onInsert, onClose }) {
                 setImages((prev) => [{ url, publicId: url }, ...prev]);
               }}
             />
-            <button className={classes.closeBtn} onClick={onClose}>✕</button>
+            <button type="button" className={classes.closeBtn} onClick={onClose}>✕</button>
           </div>
         </div>
 
@@ -73,12 +73,14 @@ function ImageBrowser({ onInsert, onClose }) {
                   />
                   <div className={classes.actions}>
                     <button
+                      type="button"
                       className={classes.copyBtn}
                       onClick={() => copyUrl(img.url)}
                     >
                       {copied === img.url ? '복사됨 ✓' : 'URL 복사'}
                     </button>
                     <button
+                      type="button"
                       className={classes.insertBtn}
                       onClick={() => insertImage(img.url)}
                     >
