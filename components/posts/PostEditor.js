@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import remarkGfm from 'remark-gfm';
 
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
@@ -198,6 +199,9 @@ function PostEditor(props) {
           }}
           textareaProps={{
             placeholder: '마크다운으로 본문을 작성하세요.',
+          }}
+          previewOptions={{
+            remarkPlugins: [[remarkGfm, { singleTilde: false }]],
           }}
         />
       </div>
