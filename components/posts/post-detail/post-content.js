@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -71,7 +72,7 @@ function PostContent(props) {
           </Link>
         </div>
       )}
-      <ReactMarkdown components={customRenderers}>{post.content}</ReactMarkdown>
+      <ReactMarkdown components={customRenderers} remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
     </article>
   );
 }
