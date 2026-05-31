@@ -72,7 +72,7 @@ function PostContent(props) {
           </Link>
         </div>
       )}
-      <ReactMarkdown components={customRenderers} remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
+      <ReactMarkdown components={customRenderers} remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>{post.content}</ReactMarkdown>
     </article>
   );
 }
