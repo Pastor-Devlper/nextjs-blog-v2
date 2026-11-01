@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 // import path from 'path';
 import formidable, { File } from 'formidable';
 import { v2 as cloudinary } from 'cloudinary';
+import { requireAuth } from '../../lib/require-auth';
 
 /* Don't miss that! */
 export const config = {
@@ -14,6 +15,8 @@ export const config = {
 type ProcessedFiles = Array<[string, File]>;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (!(await requireAuth(req, res))) return;
+
   let status = 200,
     resultBody = {
       status: 'ok',

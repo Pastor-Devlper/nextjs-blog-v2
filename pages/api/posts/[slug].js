@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import { requireAuth } from '../../../lib/require-auth';
 
 function getClient() {
   const connectionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.ehe1nta.mongodb.net/?retryWrites=true&w=majority`;
@@ -6,6 +7,10 @@ function getClient() {
 }
 
 export default async function handler(req, res) {
+  if (req.method === 'DELETE' || req.method === 'PUT') {
+    if (!(await requireAuth(req, res))) return;
+  }
+
   if (req.method === 'DELETE') {
     const { slug } = req.query;
     let client;

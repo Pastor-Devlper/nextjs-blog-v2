@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import { requireAuth } from '../../../lib/require-auth';
 
 function slugify(title) {
   return (
@@ -19,6 +20,8 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
+
+  if (!(await requireAuth(req, res))) return;
 
   const { title, date, image, excerpt, isFeatured, content } = req.body;
 

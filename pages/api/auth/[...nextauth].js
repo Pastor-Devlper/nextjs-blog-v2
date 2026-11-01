@@ -5,7 +5,7 @@ const allowedEmails = process.env.ALLOWED_EMAILS
   ? process.env.ALLOWED_EMAILS.split(',').map((e) => e.trim())
   : [];
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -29,4 +29,6 @@ export default NextAuth({
     signIn: '/auth/signin',
     error: '/auth/signin',
   },
-});
+};
+
+export default NextAuth(authOptions);
